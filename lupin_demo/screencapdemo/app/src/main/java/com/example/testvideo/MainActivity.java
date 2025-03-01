@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (ConnectionManager.getInstance().getSocket() == null){
-                    Toast.makeText(MainActivity.this,"pleast connect first!!!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,"pleast connect first",Toast.LENGTH_SHORT).show();
                     return;
                 }
 

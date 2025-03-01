@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         HandlerThread handlerThread = new HandlerThread("motion");
+        handlerThread.start();
         mHandler = new Handler(handlerThread.getLooper(), new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     int action = event.getAction();
                     int x = (int) (event.getX() * mRatio);
                     int y = (int) (event.getY() * mRatio);
-
+                    Log.d("GZG","X:"+x+", Y:"+y);
                     ByteBuffer byteBuffer = ByteBuffer.allocate(13);
                     byteBuffer.put((byte) TYPE_MOTION);
                     byteBuffer.putInt(action);
@@ -172,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 msg.obj = MotionEvent.obtain(event);
                 mHandler.sendMessage(msg);
 
-                return false;
+                return true;
             }
         });
 
