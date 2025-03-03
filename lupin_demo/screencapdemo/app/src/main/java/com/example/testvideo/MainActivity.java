@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (ConnectionManager.getInstance().getSocket() == null){
-                    Toast.makeText(MainActivity.this,"pleast connect first",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,"！！！pleast connect first",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -113,12 +113,14 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == RECORD_REQUEST_CODE && resultCode == RESULT_OK) {
             startForegroundService(new Intent(this,RecordService.class));
             recordService.startForeground();
+
             WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
             Display display = windowManager.getDefaultDisplay();
             float refreshRate = display.getRefreshRate();
             recordService.setRate(refreshRate);
 
             mediaProjection = projectionManager.getMediaProjection(resultCode, data);
+
             recordService.setMediaProject(mediaProjection);
             recordService.startRecord();
             startBtn.setText(R.string.stop_record);//设置文字

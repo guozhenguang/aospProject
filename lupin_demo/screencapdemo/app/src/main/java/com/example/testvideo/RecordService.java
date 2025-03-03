@@ -129,14 +129,14 @@ public class RecordService extends Service {
 
     private void initMediaCodec() {
         initRecorder();
-        try {
-            mediaRecorder.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-        createVirtualDisplay(mediaRecorder.getSurface());
-        mediaRecorder.start();
+//        try {
+//            mediaRecorder.prepare();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return;
+//        }
+//        createVirtualDisplay(mediaRecorder.getSurface());
+//        mediaRecorder.start();
     }
 
     public boolean stopRecord() {
