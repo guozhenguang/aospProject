@@ -30,11 +30,12 @@ public class MainActivity extends AppCompatActivity {
     String ip ="";
     Socket mClientSocket = null;
     Socket mControlSocket = null;
+    Socket mAudioSocket = null;
     boolean running = true;
     MediaCodec mediaCodec = null;
     int mDesWidth = 0;
     int mDesHeight = 0;
-
+    Button btn;
     Handler mHandler = null;
     int TYPE_MOTION = 0;
     public static int bytesToInt2(byte[] src, int offset){
@@ -152,13 +153,25 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+                running = true;
                 initMediaCodec(holder.getSurface(),width,height);
                 decodeH264();
             }
 
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
+                running = false;
+                try {
+                    if (mClientSocket != null){
+                        mClientSocket.close();
+                    }
+                    mClientSocket = null;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
 
+                AudioTrackPlay.getInstance().stopReceive();
+                btn.setText("please to connect server");
           }
         });
 
@@ -192,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) { }
         });
 
-        final Button btn = findViewById(R.id.connect);
+        btn = findViewById(R.id.connect);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,6 +224,9 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             mControlSocket = new Socket(ip,7777);
                             mClientSocket = new Socket(ip,6666);
+                            mAudioSocket = new Socket(ip,8888);
+
+                            AudioTrackPlay.getInstance().receiveData(mAudioSocket);
                             byte[] data = new byte[1];
                             int len = mClientSocket.getInputStream().read(data);
                             if (len==1 && data[0]==66){

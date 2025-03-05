@@ -8,8 +8,10 @@ public class ConnectionManager {
     private static ConnectionManager connectionManager = new ConnectionManager();
     private ServerSocket mServer = null;
     private ServerSocket mControlServer = null;
+    private ServerSocket mAudioServer = null;
     private Socket mSocket = null;
     private Socket mControlSocket = null;
+    private Socket mAudioSocket = null;
     private boolean mRunning = true;
     private ControlDataRec mControlDataRec;
 
@@ -31,8 +33,12 @@ public class ConnectionManager {
                         if (mServer == null){
                             mServer = new ServerSocket(6666);
                         }
+                        if (mAudioServer == null){
+                            mAudioServer = new ServerSocket(8888);
+                        }
                         mControlSocket = mControlServer.accept();
                         mSocket = mServer.accept();
+                        mAudioSocket = mAudioServer.accept();
                         mSocket.getOutputStream().write(66);
                         mSocket.getOutputStream().write(intToByte(mWidth));
                         mSocket.getOutputStream().write(intToByte(mHeight));
@@ -51,6 +57,10 @@ public class ConnectionManager {
 
     Socket getControlSocketSocket(){
         return mControlSocket;
+    }
+
+    Socket getAudioSocketSocket(){
+        return mAudioSocket;
     }
 
     void endConnect(){

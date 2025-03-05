@@ -123,6 +123,7 @@ public class RecordService extends Service {
                 initMediaCodec();
             }
         }).start();
+        AudioDataManager.getInstance().startRecord(ConnectionManager.getInstance().getAudioSocketSocket());
 
         return true;
     }
@@ -146,8 +147,13 @@ public class RecordService extends Service {
         running = false;
         if (virtualDisplay != null){
             virtualDisplay.release();
+            virtualDisplay = null;
         }
-        mediaProjection.stop();
+        if (mediaProjection != null){
+            mediaProjection.stop();
+            mediaProjection = null;
+        }
+        AudioDataManager.getInstance().stopAudioRecord();
 
         return true;
     }
