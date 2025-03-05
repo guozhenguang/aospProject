@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.remotesubmix">
 
+    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CALL_AUDIO_INTERCEPTION"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
